@@ -54,7 +54,7 @@ export default function App({ Component, pageProps }) {
 
   const logo = {
     width: 35,
-    topBarSource: "../grimbag.svg",
+    topBarSource: "https://github.com/user-attachments/assets/ffa87fe1-17b4-41ca-8ac6-00940e4e5245",
     accessibilityLabel: "Test Store",
   };
 
