@@ -23,7 +23,7 @@ const Index = () => {
           <Layout.Section>
             <Card>
               <BlockStack gap="200">
-                <Text variant="headingMd">Welcome to the Playground ⚰</Text>
+                <Text variant="headingMd">Welcome to the Playground</Text>
                 <Text>
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et recusandae esse libero neque debitis quasi excepturi magnam provident aperiam numquam voluptatem laboriosam dolorum exercitationem aspernatur nobis, laborum harum. Eaque, placeat.
                 </Text>
