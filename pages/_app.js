@@ -32,6 +32,7 @@ import {
 import "@shopify/polaris/build/esm/styles.css";
 import translations from "@shopify/polaris/locales/en.json";
 import { useCallback, useState, useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react"
 import { useRouter } from "next/router";
 import '@/assets/globals.css';
 
@@ -391,6 +392,7 @@ export default function App({ Component, pageProps }) {
             <div style={{ paddingBottom: "35px" }} />
             <hr style={{ border: "0.8px solid #E1E3E5" }} />
             <Component {...pageProps} />
+            <Analytics />
           </Frame>
         )}
       </PolarisProvider>
