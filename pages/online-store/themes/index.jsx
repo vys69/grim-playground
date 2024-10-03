@@ -15,8 +15,22 @@ import {
     Thumbnail,
     Badge,
 } from '@shopify/polaris';
-import { ViewIcon, MenuHorizontalIcon, StoreMajor, UploadMajor, GitHubMajor } from '@shopify/polaris-icons';
-import { useCallback, useState } from "react";
+import { ViewIcon, MenuHorizontalIcon, StoreMajor, UploadMajor, GitHubMajor, ThemeIcon } from '@shopify/polaris-icons';
+import { useCallback, useState, useEffect } from "react";
+import { useRouter } from "next/router";
+const formatDate = (date) => {
+    const options = {
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+        timeZone: 'America/New_York'
+    };
+    const formattedDate = date.toLocaleString('en-US', options);
+    const [datePart, timePart] = formattedDate.split(', ');
+    return `${datePart} at ${timePart.toLowerCase()} EDT`;
+};
 
 const ThemeItem = ({ theme }) => {
     const [moreActionsActive, setMoreActionsActive] = useState(false);
@@ -51,12 +65,16 @@ const ThemeItem = ({ theme }) => {
             <InlineStack align="space-between">
                 <InlineStack gap="400">
                     <Thumbnail
-                        source={theme.image}
+                        // source={theme.image}
+                        source={ThemeIcon}
                         alt={`${theme.name} preview`}
-                        size="small"
+                        size="large"
                     />
                     <BlockStack gap="100">
-                        <Text variant="headingMd" as="h3">{theme.name}</Text>
+                        <InlineStack gap="200" align="center">
+                            <Text variant="headingMd" as="h3">{theme.name}</Text>
+                            <Badge tone={theme.isCurrent ? "success" : "subdued"}>{theme.isCurrent ? "Current theme" : `${theme.status}`}</Badge>
+                        </InlineStack>
                         <Text variant="bodySm" as="p" color="subdued">
                             {theme.isCurrent ? `Last saved: ${theme.lastSaved}` : `Added: ${theme.added}`}
                         </Text>
@@ -76,27 +94,48 @@ const ThemeItem = ({ theme }) => {
 };
 
 const ThemesPage = () => {
-    const themes = [
+    const router = useRouter();
+    const [dates, setDates] = useState({
+        current: formatDate(new Date()),
+        yesterday: formatDate(new Date(Date.now() - 86400000)), // 24 hours ago
+        monthAgo: formatDate(new Date(Date.now() - 30 * 86400000)) // Roughly a month ago
+    });
+
+    useEffect(() => {
+        const now = new Date();
+        setDates({
+            current: formatDate(now),
+            yesterday: formatDate(new Date(now.getTime() - 86400000)),
+            monthAgo: formatDate(new Date(now.getTime() - 30 * 86400000))
+        });
+    }, []);
+
+    const [mainTheme, setMainTheme] = useState([
         {
-            name: "SYN | STL TESTING",
-            lastSaved: "Sep 13 at 1:07 am EDT",
+            name: "GRIM'S LAB | WINXP",
+            lastSaved: dates.current,
             version: "SYNICAL | Live Theme version 1.0.0",
             isCurrent: true,
             image: "https://cdn.shopify.com/screenshots/shopify/s1drh40m8v5le96u9lksxiacip329ni-47831449763.shopifypreview.com?height=1080&version=357d54c586a211efa8abe8258c8beb1f794ee8abb786f8d5e20a21a32f18c28b&width=1350&resize_width=180&resize_height=144"
-        },
+        }
+    ]);
+
+    const [themes, setThemes] = useState([
         {
-            name: "synical/staging",
-            added: "Aug 12 at 4:42 pm EDT",
-            version: "SYNICAL | Live Theme version 1.0.0",
+            name: "Theme 1",
+            status: "In Development",
+            added: dates.yesterday,
+            version: "Version 1.0.0",
             image: "https://cdn.shopify.com/screenshots/shopify/s1drh40m8v5le96u9lksxiacip329ni-47831449763.shopifypreview.com?height=1080&version=357d54c586a211efa8abe8258c8beb1f794ee8abb786f8d5e20a21a32f18c28b&width=1350&resize_width=180&resize_height=144"
         },
         {
-            name: "synical/main",
-            added: "Aug 8 at 8:36 pm EDT",
-            version: "SYNICAL | Live Theme version 1.0.0",
+            name: "Theme 2",
+            status: "Coming soon",
+            added: dates.monthAgo,
+            version: "Version 1.0.0",
             image: "https://cdn.shopify.com/screenshots/shopify/s1drh40m8v5le96u9lksxiacip329ni-47831449763.shopifypreview.com?height=1080&version=357d54c586a211efa8abe8258c8beb1f794ee8abb786f8d5e20a21a32f18c28b&width=1350&resize_width=180&resize_height=144"
         }
-    ];
+    ]);
 
     const [addThemeActive, setAddThemeActive] = useState(false);
 
@@ -110,49 +149,58 @@ const ThemesPage = () => {
             <Layout>
                 <Layout.Section>
                     <Card padding="0">
-                        <div className="themePreviewContainer">
-                            <div className="mockupsContainer">
-                                <div className="desktopMockup">
-                                    <img
-                                        alt="Desktop Theme preview"
-                                        src="https://cdn.shopify.com/screenshots/shopify/8s4o7o9mr574rkynce3ao00dzhyqc2s-47831449763.shopifypreview.com?height=900&version=98e57805ee6acab4f9899f306890c1c947b3575650f27b076aa7a965f339991f&width=1160"
-                                    />
-                                </div>
-                                <div className="mobileMockup">
-                                    <img
-                                        alt="Mobile Theme preview"
-                                        src="https://cdn.shopify.com/screenshots/shopify/8s4o7o9mr574rkynce3ao00dzhyqc2s-47831449763.shopifypreview.com?height=900&version=98e57805ee6acab4f9899f306890c1c947b3575650f27b076aa7a965f339991f&width=350"
-                                    />
-                                </div>
-                            </div>
-                            <div className="themeDetailsOverlay">
-                                <InlineStack align="space-between">
-                                    <InlineStack gap="400">
-                                        <Thumbnail
-                                            source="https://cdn.shopify.com/screenshots/shopify/8s4o7o9mr574rkynce3ao00dzhyqc2s-47831449763.shopifypreview.com?height=1080&version=98e57805ee6acab4f9899f306890c1c947b3575650f27b076aa7a965f339991f&width=1350&resize_width=180&resize_height=144"
-                                            alt="Theme thumbnail"
-                                            size="small"
+                        {mainTheme.map((theme) => (
+                            <div key={theme.name} className="themePreviewContainer">
+                                <div className="mockupsContainer">
+                                    <div className="desktopMockup">
+                                        <img
+                                            alt="Desktop Theme preview"
+                                            src="https://cdn.shopify.com/screenshots/shopify/8s4o7o9mr574rkynce3ao00dzhyqc2s-47831449763.shopifypreview.com?height=900&version=98e57805ee6acab4f9899f306890c1c947b3575650f27b076aa7a965f339991f&width=1160"
                                         />
-                                        <BlockStack gap="100">
-                                            <InlineStack gap="200" align="center">
-                                                <Text variant="headingMd" as="h3">SYN | STL TESTING</Text>
-                                                <Badge tone="success">Current theme</Badge>
-                                            </InlineStack>
-                                            <Text variant="bodySm" as="p" color="subdued">
-                                                Last saved: Sep 13 at 1:07 am EDT
-                                            </Text>
-                                            <Text variant="bodySm" as="p" color="subdued">
-                                                SYNICAL | Live Theme version 1.0.0
-                                            </Text>
-                                        </BlockStack>
+                                    </div>
+                                    <div className="mobileMockup">
+                                        <img
+                                            alt="Mobile Theme preview"
+                                            src="https://cdn.shopify.com/screenshots/shopify/8s4o7o9mr574rkynce3ao00dzhyqc2s-47831449763.shopifypreview.com?height=900&version=98e57805ee6acab4f9899f306890c1c947b3575650f27b076aa7a965f339991f&width=350"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="themeDetailsOverlay">
+                                    <InlineStack align="space-between">
+                                        <InlineStack gap="400">
+                                            <Thumbnail
+                                                source={theme.image}
+                                                alt={`${theme.name} thumbnail`}
+                                                size="small"
+                                            />
+                                            <BlockStack gap="100">
+                                                <InlineStack gap="200" align="center">
+                                                    <Text variant="headingMd" as="h3">{theme.name}</Text>
+                                                    {theme.isCurrent && <Badge tone="success">Current theme</Badge>}
+                                                </InlineStack>
+                                                <Text variant="bodySm" as="p" color="subdued">
+                                                    Last saved: {theme.lastSaved}
+                                                </Text>
+                                                <Text variant="bodySm" as="p" color="subdued">
+                                                    {theme.version}
+                                                </Text>
+                                            </BlockStack>
+                                        </InlineStack>
+                                        <ButtonGroup>
+                                            <Button icon={MenuHorizontalIcon}></Button>
+                                            <Button 
+                                                variant="primary"
+                                                onClick={() => {
+                                                    router.push('/online-store/themes/customize');
+                                                }}
+                                            >
+                                                Customize
+                                            </Button>
+                                        </ButtonGroup>
                                     </InlineStack>
-                                    <ButtonGroup>
-                                        <Button icon={MenuHorizontalIcon}></Button>
-                                        <Button variant="primary">Customize</Button>
-                                    </ButtonGroup>
-                                </InlineStack>
+                                </div>
                             </div>
-                        </div>
+                        ))}
                     </Card>
                 </Layout.Section>
                 <Layout.Section>
