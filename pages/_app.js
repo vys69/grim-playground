@@ -9,6 +9,8 @@ import {
 import {
   ChartVerticalIcon,
   AppsIcon,
+  Tooltip,
+
   ChevronRightIcon,
   ContentIcon,
   PersonIcon,
@@ -20,12 +22,12 @@ import {
   OrderIcon,
   ProductIcon,
   StoreIcon,
+  ViewIcon,
 } from "@shopify/polaris-icons";
 import "@shopify/polaris/build/esm/styles.css";
 import translations from "@shopify/polaris/locales/en.json";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/router";
-import GrimBag from "../icons/grim-bag"
 export default function App({ Component, pageProps }) {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -52,7 +54,7 @@ export default function App({ Component, pageProps }) {
 
   const logo = {
     width: 35,
-    topBarSource: GrimBag,
+    topBarSource: "../grimbag.svg",
     accessibilityLabel: "Test Store",
   };
 
@@ -176,6 +178,11 @@ export default function App({ Component, pageProps }) {
           {
             url: '/online-store',
             label: "Online Store",
+            secondaryAction: {
+              icon: ViewIcon,
+              accessibilityLabel: "View",
+            },
+            displayActionsOnHover: true,
             icon: StoreIcon,
             selected: isSelected('/online-store'),
           },
