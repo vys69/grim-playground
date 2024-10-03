@@ -53,3 +53,33 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+
+.customize-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e1e3e5;
+}
+
+.left-section,
+.center-section,
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.center-section {
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.divider {
+    width: 1px;
+    height: 20px;
+    background-color: #e1e3e5;
+    margin: 0 0.5rem;
+}

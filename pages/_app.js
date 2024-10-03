@@ -50,8 +50,8 @@ const MobileContent = ({ topBarMarkup, logo }) => {
         height: 'calc(100vh - 56px)', // Subtracting top bar height
         overflow: 'hidden'
       }}>
-        <img 
-          src="https://media.tenor.com/fEgws0QEUxQAAAAM/no-nope.gif" 
+        <img
+          src="https://media.tenor.com/fEgws0QEUxQAAAAM/no-nope.gif"
           alt="No access on mobile"
           style={{
             width: '100%',
@@ -101,6 +101,12 @@ const MobileContent = ({ topBarMarkup, logo }) => {
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
+  const isCustomizePage = router.pathname.startsWith('/customize');
+
+  if (isCustomizePage) {
+    return <Component {...pageProps} />;
+  }
+
   const [isMobile, setIsMobile] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
   const [isSearchActive, setIsSearchActive] = useState(false);

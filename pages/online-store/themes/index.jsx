@@ -15,7 +15,7 @@ import {
     Thumbnail,
     Badge,
 } from '@shopify/polaris';
-import { ViewIcon, MenuHorizontalIcon, StoreMajor, UploadMajor, GitHubMajor, ThemeIcon } from '@shopify/polaris-icons';
+import { ViewIcon, MenuHorizontalIcon, StoreMajor, UploadMajor, GitHubMajor, ThemeIcon, MagicIcon } from '@shopify/polaris-icons';
 import { useCallback, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 const formatDate = (date) => {
@@ -66,10 +66,17 @@ const ThemeItem = ({ theme }) => {
                 <InlineStack gap="400">
                     <Thumbnail
                         // source={theme.image}
-                        source={ThemeIcon}
+                        source={MagicIcon}
                         alt={`${theme.name} preview`}
                         size="large"
                     />
+                    {/* <img
+                        alt="Theme thumbnail"
+                        src={theme.image}
+                        height="72px"
+                        width="90px"
+                        style={{ borderRadius: '6px' }}
+                    /> */}
                     <BlockStack gap="100">
                         <InlineStack gap="200" align="center">
                             <Text variant="headingMd" as="h3">{theme.name}</Text>
@@ -86,7 +93,7 @@ const ThemeItem = ({ theme }) => {
                 <ButtonGroup>
                     {moreActionsPopover}
                     <Button>Publish</Button>
-                    <Button variant="primary">Customize</Button>
+                    <Button disabled={theme.disabled} variant="primary">Customize</Button>
                 </ButtonGroup>
             </InlineStack>
         </Box>
@@ -116,7 +123,8 @@ const ThemesPage = () => {
             lastSaved: dates.current,
             version: "SYNICAL | Live Theme version 1.0.0",
             isCurrent: true,
-            image: "https://cdn.shopify.com/screenshots/shopify/s1drh40m8v5le96u9lksxiacip329ni-47831449763.shopifypreview.com?height=1080&version=357d54c586a211efa8abe8258c8beb1f794ee8abb786f8d5e20a21a32f18c28b&width=1350&resize_width=180&resize_height=144"
+            desktopImage: "https://cdn.shopify.com/screenshots/shopify/ro7qhyqncncrjghwjw4rcxuliellkli-83581305131.shopifypreview.com?height=900&version=a54f5c2f07f3f8f47c1b76e0d3e6db3d2564dafb9c3502c9cb78bb4989872930&width=1160&_bt=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaFZtZFdOclozSnBiV3hoWW5NdVkyOXRCam9HUlZRPSIsImV4cCI6IjIwMjQtMTAtMDNUMDk6MjQ6MjguNTY2WiIsInB1ciI6InBlcm1hbmVudF9wYXNzd29yZF9ieXBhc3MifX0%3D--40b15102ead011641e63aea57e1e048ec211b377",
+            mobileImage: "https://cdn.shopify.com/screenshots/shopify/ro7qhyqncncrjghwjw4rcxuliellkli-83581305131.shopifypreview.com?height=900&version=a54f5c2f07f3f8f47c1b76e0d3e6db3d2564dafb9c3502c9cb78bb4989872930&width=350&_bt=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaFZtZFdOclozSnBiV3hoWW5NdVkyOXRCam9HUlZRPSIsImV4cCI6IjIwMjQtMTAtMDNUMDk6MjQ6MjguNTY4WiIsInB1ciI6InBlcm1hbmVudF9wYXNzd29yZF9ieXBhc3MifX0%3D--c5a12b29b796f0a245adf91ab9f8ddf9ce5be2da"
         }
     ]);
 
@@ -125,12 +133,14 @@ const ThemesPage = () => {
             name: "Theme 1",
             status: "In Development",
             added: dates.yesterday,
+            disabled: true,
             version: "Version 1.0.0",
             image: "https://cdn.shopify.com/screenshots/shopify/s1drh40m8v5le96u9lksxiacip329ni-47831449763.shopifypreview.com?height=1080&version=357d54c586a211efa8abe8258c8beb1f794ee8abb786f8d5e20a21a32f18c28b&width=1350&resize_width=180&resize_height=144"
         },
         {
             name: "Theme 2",
             status: "Coming soon",
+            disabled: true,
             added: dates.monthAgo,
             version: "Version 1.0.0",
             image: "https://cdn.shopify.com/screenshots/shopify/s1drh40m8v5le96u9lksxiacip329ni-47831449763.shopifypreview.com?height=1080&version=357d54c586a211efa8abe8258c8beb1f794ee8abb786f8d5e20a21a32f18c28b&width=1350&resize_width=180&resize_height=144"
@@ -155,23 +165,30 @@ const ThemesPage = () => {
                                     <div className="desktopMockup">
                                         <img
                                             alt="Desktop Theme preview"
-                                            src="https://cdn.shopify.com/screenshots/shopify/8s4o7o9mr574rkynce3ao00dzhyqc2s-47831449763.shopifypreview.com?height=900&version=98e57805ee6acab4f9899f306890c1c947b3575650f27b076aa7a965f339991f&width=1160"
+                                            src={theme.desktopImage}
                                         />
                                     </div>
                                     <div className="mobileMockup">
                                         <img
                                             alt="Mobile Theme preview"
-                                            src="https://cdn.shopify.com/screenshots/shopify/8s4o7o9mr574rkynce3ao00dzhyqc2s-47831449763.shopifypreview.com?height=900&version=98e57805ee6acab4f9899f306890c1c947b3575650f27b076aa7a965f339991f&width=350"
+                                            src={theme.mobileImage}
                                         />
                                     </div>
                                 </div>
                                 <div className="themeDetailsOverlay">
                                     <InlineStack align="space-between">
                                         <InlineStack gap="400">
-                                            <Thumbnail
-                                                source={theme.image}
+                                            {/* <Thumbnail
+                                                source={MagicIcon}
                                                 alt={`${theme.name} thumbnail`}
-                                                size="small"
+                                                size="large"
+                                            /> */}
+                                            <img
+                                                alt="Theme thumbnail"
+                                                src={theme.desktopImage}
+                                                height="72px"
+                                                width="90px"
+                                                style={{ borderRadius: '6px' }}
                                             />
                                             <BlockStack gap="100">
                                                 <InlineStack gap="200" align="center">
@@ -188,10 +205,10 @@ const ThemesPage = () => {
                                         </InlineStack>
                                         <ButtonGroup>
                                             <Button icon={MenuHorizontalIcon}></Button>
-                                            <Button 
+                                            <Button
                                                 variant="primary"
                                                 onClick={() => {
-                                                    router.push('/online-store/themes/customize');
+                                                    router.push('/customize');
                                                 }}
                                             >
                                                 Customize
