@@ -202,12 +202,12 @@ export default function App({ Component, pageProps }) {
       <Navigation.Section
         items={[
           {
-            url: '/home',
-            excludePaths: ['/home'],
+            url: '/',
+            excludePaths: ['/'],
             label: 'Home',
             icon: HomeIcon,
             disabled: false,
-            selected: isSelected('/home'),
+            selected: isSelected('/'),
           },
           {
             url: '#',

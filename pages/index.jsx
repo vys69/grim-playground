@@ -8,13 +8,14 @@ import {
   Text,
 } from "@shopify/polaris";
 import isInitialLoad from "@/utils/middleware/isInitialLoad";
+import { useRouter } from "next/router";
 
 //On first install, check if the store is installed and redirect accordingly
 export async function getServerSideProps(context) {
   return await isInitialLoad(context);
 }
-
 const Index = () => {
+  const router = useRouter();
   return (
     <>
       <Page>
@@ -22,29 +23,21 @@ const Index = () => {
           <Layout.Section>
             <Card>
               <BlockStack gap="200">
-                <Text variant="headingMd">Polaris Playground</Text>
+                <Text variant="headingMd">Welcome to the Playground</Text>
                 <Text>
-                  I created this quick playground so designers who can code can
-                  quickly create UIs that can be directly used by developers to
-                  build Shopify apps.
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et recusandae esse libero neque debitis quasi excepturi magnam provident aperiam numquam voluptatem laboriosam dolorum exercitationem aspernatur nobis, laborum harum. Eaque, placeat.
                 </Text>
                 <Text>
-                  I personally use this to quickly mock apps before I whip up
-                  one of the boilerplates and invest the time to start writing
-                  code. Also, this is great to build on the go when internet
-                  access is limited.
+                 lol Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut porro, corporis eveniet rem voluptatibus repellendus blanditiis eum quia! Voluptates magnam eveniet autem sint assumenda doloremque. Necessitatibus harum corrupti at voluptatibus!
                 </Text>
                 <InlineStack align="end">
                   <Button
                     variant="primary"
                     onClick={() => {
-                      window.open(
-                        "https://github.com/kinngh/shopify-polaris-playground",
-                        "_blank"
-                      );
+                      router.push('/online-store/themes');
                     }}
                   >
-                    Repository
+                    Customize themes
                   </Button>
                 </InlineStack>
               </BlockStack>
