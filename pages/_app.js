@@ -54,7 +54,7 @@ export default function App({ Component, pageProps }) {
 
   const logo = {
     width: 35,
-    topBarSource: "https://github.com/user-attachments/assets/ffa87fe1-17b4-41ca-8ac6-00940e4e5245",
+    topBarSource: "https://github-production-user-asset-6210df.s3.amazonaws.com/75869731/373111702-ffa87fe1-17b4-41ca-8ac6-00940e4e5245.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241003%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241003T040321Z&X-Amz-Expires=300&X-Amz-Signature=d39e2775b334eefeda60b36c67a5b3887a6bc8defb56347aa7f2fe7587af6795&X-Amz-SignedHeaders=host",
     accessibilityLabel: "Test Store",
   };
 
