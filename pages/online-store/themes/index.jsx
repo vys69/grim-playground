@@ -18,19 +18,16 @@ import {
 import { ViewIcon, MenuHorizontalIcon, StoreMajor, UploadMajor, GitHubMajor, ThemeIcon, MagicIcon } from '@shopify/polaris-icons';
 import { useCallback, useState, useEffect } from "react";
 import { useRouter } from "next/router";
-const formatDate = (date) => {
-    const options = {
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-        timeZone: 'America/New_York'
+import { useDates } from '../../../hooks/useDates';
+import { getInitialDates } from '../../../utils/dateUtils';
+
+export async function getServerSideProps() {
+    return {
+        props: {
+            initialDates: getInitialDates()
+        }
     };
-    const formattedDate = date.toLocaleString('en-US', options);
-    const [datePart, timePart] = formattedDate.split(', ');
-    return `${datePart} at ${timePart.toLowerCase()} EDT`;
-};
+}
 
 const ThemeItem = ({ theme }) => {
     const [moreActionsActive, setMoreActionsActive] = useState(false);
@@ -100,22 +97,9 @@ const ThemeItem = ({ theme }) => {
     );
 };
 
-const ThemesPage = () => {
+const ThemesPage = ({ initialDates }) => {
     const router = useRouter();
-    const [dates, setDates] = useState({
-        current: formatDate(new Date()),
-        yesterday: formatDate(new Date(Date.now() - 86400000)), // 24 hours ago
-        monthAgo: formatDate(new Date(Date.now() - 30 * 86400000)) // Roughly a month ago
-    });
-
-    useEffect(() => {
-        const now = new Date();
-        setDates({
-            current: formatDate(now),
-            yesterday: formatDate(new Date(now.getTime() - 86400000)),
-            monthAgo: formatDate(new Date(now.getTime() - 30 * 86400000))
-        });
-    }, []);
+    const dates = useDates();
 
     const [mainTheme, setMainTheme] = useState([
         {
@@ -123,8 +107,8 @@ const ThemesPage = () => {
             lastSaved: dates.current,
             version: "SYNICAL | Live Theme version 1.0.0",
             isCurrent: true,
-            desktopImage: "https://cdn.shopify.com/screenshots/shopify/ro7qhyqncncrjghwjw4rcxuliellkli-83581305131.shopifypreview.com?height=900&version=a54f5c2f07f3f8f47c1b76e0d3e6db3d2564dafb9c3502c9cb78bb4989872930&width=1160&_bt=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaFZtZFdOclozSnBiV3hoWW5NdVkyOXRCam9HUlZRPSIsImV4cCI6IjIwMjQtMTAtMDNUMDk6MjQ6MjguNTY2WiIsInB1ciI6InBlcm1hbmVudF9wYXNzd29yZF9ieXBhc3MifX0%3D--40b15102ead011641e63aea57e1e048ec211b377",
-            mobileImage: "https://cdn.shopify.com/screenshots/shopify/ro7qhyqncncrjghwjw4rcxuliellkli-83581305131.shopifypreview.com?height=900&version=a54f5c2f07f3f8f47c1b76e0d3e6db3d2564dafb9c3502c9cb78bb4989872930&width=350&_bt=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaFZtZFdOclozSnBiV3hoWW5NdVkyOXRCam9HUlZRPSIsImV4cCI6IjIwMjQtMTAtMDNUMDk6MjQ6MjguNTY4WiIsInB1ciI6InBlcm1hbmVudF9wYXNzd29yZF9ieXBhc3MifX0%3D--c5a12b29b796f0a245adf91ab9f8ddf9ce5be2da"
+            desktopImage: "/desktopImage.png",
+            mobileImage: "/mobileImage.png"
         }
     ]);
 
@@ -153,7 +137,7 @@ const ThemesPage = () => {
 
     return (
         <Page
-            title="Themes"
+            title="Hi chat"
             primaryAction={<Button icon={ViewIcon} variant="secondary">View your store</Button>}
         >
             <Layout>

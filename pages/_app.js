@@ -161,7 +161,7 @@ export default function App({ Component, pageProps }) {
           </>
         }
       ></TopBar.Menu>
-      <TopBar.UserMenu name="User" detail="Playground" initials="U" />
+      <TopBar.UserMenu name="User" initials="U" />
     </>
   );
 
